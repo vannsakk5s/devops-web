@@ -1,0 +1,23 @@
+name: DevOps CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
+
+      - name: Build Docker Image
+        run: docker build -t vannsak237/devops-web:latest .
+
+      - name: Push Docker Image
+        run: docker push vannsak237/devops-web:latest
